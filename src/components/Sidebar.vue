@@ -1,6 +1,10 @@
 <template>
-<div>
-  <b-row class="text-center">
+    <div class="sidebar-sticky pt-3">
+      <button type="button" class="btn btn-dark" @click="findMe()"> Find Me </button>
+      <SearchBox/>
+    </div>
+<!-- <div> -->
+  <!-- <b-row class="text-center">
     <b-col cols="12" class="">
         <button type="button" class="btn btn-dark" @click="findMe()"> Find Me </button>
     </b-col>
@@ -10,7 +14,7 @@
       <search-box/>
     </b-col>
   </b-row>
-</div>
+</div> -->
 </template>
 
 <script>
@@ -25,7 +29,7 @@ export default {
   data () {
     return {
       geoLocation: {},
-      aqData: {}
+      aqData: {},
     }
   },
   methods: {

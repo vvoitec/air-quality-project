@@ -1,29 +1,34 @@
 <template>
-  <b-row>
-    <b-col style="height: 100vh;">
-        <l-map
-          ref="map"
-          style="height: 100%; width: 100%"
-          :zoom="zoom"
-          :center="center"
-          :inertia="true"
-          @update:zoom="zoomUpdated"
-          @update:center="centerUpdated(currentPosition)"
-          @update:bounds="boundsUpdated"
-        >
-          <template v-if="markers.length > 0">
-            <template v-for="(marker, index) in markers">
-              <l-marker :lat-lng="marker" :key="index"></l-marker>
-            </template>
-          </template>
-          <l-tile-layer :url="url"></l-tile-layer>
-        </l-map>
-    </b-col>
-  </b-row>
+  <l-map
+    ref="map"
+    style="height: 100vh; width: 100%"
+    :zoom="zoom"
+    :center="center"
+    :inertia="true"
+    @update:zoom="zoomUpdated"
+    @update:center="centerUpdated(currentPosition)"
+    @update:bounds="boundsUpdated"
+  >
+    <template v-if="markers.length > 0">
+      <template v-for="(marker, index) in markers">
+        <l-marker :lat-lng="marker" :key="index"></l-marker>
+      </template>
+    </template>
+    <l-tile-layer :url="url"></l-tile-layer>
+    <l-control position="topright" >
+      <div class="d-md-none">
+        <button
+            class="btn btn-dark"
+            @click="toggleSidebar()"
+            type="button"
+        ><i class="fa fa-bars fa-lg"></i></button>
+      </div>
+    </l-control>
+  </l-map>
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+import {LMap, LTileLayer, LMarker, LControl} from 'vue2-leaflet'
 // import ApiService from '../../utils/ApiService'
 
 export default {
@@ -31,9 +36,10 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker
+    LMarker,
+    LControl
   },
-  props: ['geoLocation'],
+  props: ['geoLocation', 'isMobile'],
   data () {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -54,6 +60,10 @@ export default {
     }
   },
   methods: {
+    toggleSidebar () {
+      this.$emit('toggleSidebar')
+      this.isVisible = !this.isVisible
+    },
     zoomUpdated (zoom) {
       this.zoom = zoom
     },

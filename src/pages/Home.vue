@@ -1,12 +1,16 @@
 <template>
-<b-row align-h="between">
-  <b-col sm="12" md="5" lg="4" xl="3" class="shadow-sidebar">
-    <sidebar @geoLocationRetrieved="setGeoLocation($event)"></sidebar>
-  </b-col>
-  <b-col sm="12" md="7" lg="8" xl="9" class="pl-0">
-    <Map :geo-location="geoLocation" ></Map>
-  </b-col>
-</b-row>
+  <div class="container-fluid">
+    <div class="row">
+        <div id="sidebarMenu" class="col-xs-12 col-md-3 col-lg-2 bg-light">
+          <b-collapse v-model="isVisible">
+            <sidebar @geoLocationRetrieved="setGeoLocation($event)" />
+          </b-collapse>
+        </div>
+      <div class="col-md-9 ml-sm-auto col-lg-10">
+        <Map @toggleSidebar="toggleSidebar()" :geo-location="geoLocation" ></Map>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -16,24 +20,59 @@ import Map from '../components/Map'
 export default {
   name: 'Home',
   components: {
-      Map,
-      Sidebar
+    Map,
+    Sidebar
   },
   data () {
-      return {
-        geoLocation: {}
-      }
+    return {
+      test: '',
+      geoLocation: {},
+      setVisible: true,
+      windowWidth: 0
+    }
   },
+
+  computed: {
+    isVisible: {
+      get () {
+        if (this.isMobile) return this.setVisible
+        else return true
+      },
+      set (val) {
+        this.setVisible = val
+      }
+    },
+    isMobile () {
+      return this.windowWidth < 770
+    },
+  },
+
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth)
+      //Init
+      this.getWindowWidth()
+    })
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth)
+  },
+
   methods: {
+    getWindowWidth () {
+        this.windowWidth = document.documentElement.clientWidth
+    },
+
+    toggleSidebar () {
+      this.isVisible = !this.isVisible
+    },
+
     setGeoLocation (geoLocation) {
       this.geoLocation = geoLocation
     }
   }
 }
 </script>
-<style lang="scss">
-.shadow-sidebar {
-    z-index: 401;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  }
+<style lang="css">
 </style>

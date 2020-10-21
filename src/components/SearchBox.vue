@@ -1,11 +1,24 @@
 <template>
+<!-- <form class="needs-validation" novalidate>
+<div class="form-row justify-content-center">
+  <div class="col-md-8 col-sm-12">
+    <select class="custom-select">
+      <option selected>Open this select menu</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+</div>
+</form> -->
 <b-row>
-  <b-col class="ml-3" cols="12">
+  <b-col cols="12">
     <b-form @submit="submit">
       <b-col cols="12">
         <b-form-group
         label="Country: "
         label-for="country_input"
+        class="w-label"
         >
           <b-form-select
           id="country_input"
@@ -15,8 +28,10 @@
         </b-form-group>
       </b-col>
       <b-col sm="12">
-        <label for="zipcode_input">Zip code:</label>
+        <label class="w-label" for="zipcode_input">Zip code:</label>
           <b-form-input
+            autoComplete="off"
+            class="active"
             type="text"
             id="zipcode_input"
             v-model="adress.zipCode"
@@ -24,8 +39,9 @@
           ></b-form-input>
       </b-col>
       <b-col cols="12">
-        <label for="city_input">City:</label>
+        <label class="w-label" for="city_input">City:</label>
           <b-form-input
+            autoComplete="off"
             type="text"
             id="city_input"
             v-debounce:600ms="search"
