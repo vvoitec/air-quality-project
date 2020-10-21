@@ -1,8 +1,16 @@
 <template>
-    <div class="sidebar-sticky pt-3">
-      <button type="button" class="btn btn-dark" @click="findMe()"> Find Me </button>
-      <SearchBox/>
-    </div>
+<div>
+    <button type="button" class="btn btn-dark" @click="findMe()"> Find Me </button>
+    <SearchBox @searchResult="searchResult = $event" />
+  <b-list-group v-if="searchResult.length > 0">
+    <b-list-group-item
+      v-for="(item, index ) in searchResult"
+      :key="index"
+      >
+      {{ item.display_name }}
+    </b-list-group-item>
+  </b-list-group>
+</div>
 <!-- <div> -->
   <!-- <b-row class="text-center">
     <b-col cols="12" class="">
@@ -30,6 +38,7 @@ export default {
     return {
       geoLocation: {},
       aqData: {},
+      searchResult: []
     }
   },
   methods: {

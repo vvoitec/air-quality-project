@@ -74,9 +74,7 @@ export default {
   },
   computed: {
     isAdressValid () {
-      if (this.searchResult) {
-        return Boolean(this.searchResult.length)
-      } else return false
+      return this.searchResult ? Boolean(this.searchResult.length) : false
     }
   },
   created () {
@@ -114,6 +112,7 @@ export default {
       }
       const response = await new ApiService(url).get()
       this.searchResult = response.data
+      this.$emit('searchResult', response.data)
     },
     async fetchCountryOptions () {
       const response = await new ApiService(

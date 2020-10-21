@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-        <div id="sidebarMenu" class="col-xs-12 col-md-3 col-lg-2 bg-light">
+        <div id="sidebarMenu" class="sidebar col-xs-12 col-md-4 col-lg-3 bg-light">
           <b-collapse v-model="isVisible">
             <sidebar @geoLocationRetrieved="setGeoLocation($event)" />
           </b-collapse>
         </div>
-      <div class="col-md-9 ml-sm-auto col-lg-10">
+      <div class="col-md-8 ml-sm-auto col-lg-9">
         <Map @toggleSidebar="toggleSidebar()" :geo-location="geoLocation" ></Map>
       </div>
     </div>
