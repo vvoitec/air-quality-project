@@ -1,6 +1,12 @@
-# aqd
+# air-quality-project
 
 ## Project setup
+Project needs .vue.env local file with content like this: 
+```
+VUE_APP_WAQI_TOKEN=%YOUR TOKEN%
+```
+You have to generate your own token https://api.waqi.info and put it in place of %YOUR TOKEN%
+
 ```
 npm install
 ```
