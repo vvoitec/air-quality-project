@@ -55,6 +55,8 @@ export default {
   watch: {
     'geoLocation' (val) {
       this.currentPosition = val
+      this.center = [val.lat, val.lng]
+      this.markers = []
       this.addMarker(val)
       this.setZoom()
     }

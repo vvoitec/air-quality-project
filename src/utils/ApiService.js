@@ -8,7 +8,7 @@ export default class ApiService {
 
   async get () {
     try {
-      return await axios.get(this.url)
+      return await axios.get(this.url, this.params)
     } catch (error) {
       console.error(error)
     }

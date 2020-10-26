@@ -1,34 +1,49 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-        <div id="sidebarMenu" class="sidebar col-xs-12 col-md-4 col-lg-3 bg-light">
+    <b-row>
+        <b-col
+        xs="12" md="4" lg="3"
+        id="sidebarMenu"
+        class="sidebar bg-light">
           <b-collapse v-model="isVisible">
-            <sidebar @geoLocationRetrieved="setGeoLocation($event)" />
+            <sidebar
+            @geoLocationRetrieved="setGeoLocation($event)"
+            @forecastFetched="setForecast($event)" />
           </b-collapse>
-        </div>
-      <div class="col-md-8 ml-sm-auto col-lg-9">
-        <Map @toggleSidebar="toggleSidebar()" :geo-location="geoLocation" ></Map>
-      </div>
-    </div>
+        </b-col>
+      <b-col md="8" lg="9">
+        <Map
+        @toggleSidebar="toggleSidebar()"
+        :geo-location="geoLocation" />
+        <b-col
+          xl="7" lg="8" md="10" sm="12"
+          class="chart-container ml-0 p-0 position-absolute">
+          <Slider
+            :data="forecast" />
+        </b-col>   
+      </b-col> 
+    </b-row>
   </div>
 </template>
 
 <script>
 import Sidebar from '../components/Sidebar'
 import Map from '../components/Map'
+import Slider from '../components/Slider'
 
 export default {
   name: 'Home',
   components: {
     Map,
-    Sidebar
+    Sidebar,
+    Slider
   },
   data () {
     return {
-      test: '',
       geoLocation: {},
       setVisible: true,
-      windowWidth: 0
+      windowWidth: 0,
+      forecast: {}
     }
   },
 
@@ -60,6 +75,10 @@ export default {
   },
 
   methods: {
+    setForecast(forecast) {
+      this.forecast = forecast
+    },
+
     getWindowWidth () {
         this.windowWidth = document.documentElement.clientWidth
     },
@@ -74,5 +93,9 @@ export default {
   }
 }
 </script>
-<style lang="css">
+<style lang="css" scoped>
+.chart-container {
+  bottom: 5vh;
+  z-index:400;
+}
 </style>

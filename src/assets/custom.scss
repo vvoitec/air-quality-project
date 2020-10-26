@@ -25,10 +25,13 @@
     z-index: 401;
 }
 
-.form-control {
-    margin: auto;
-    max-width: 350px;
+label {
+    display: inline-block;
+    margin-bottom: 0.1rem;
 }
 
+.form-group {
+    margin-bottom: .2rem;
+}
 
 

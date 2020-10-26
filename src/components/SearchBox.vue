@@ -1,16 +1,4 @@
 <template>
-<!-- <form class="needs-validation" novalidate>
-<div class="form-row justify-content-center">
-  <div class="col-md-8 col-sm-12">
-    <select class="custom-select">
-      <option selected>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-  </div>
-</div>
-</form> -->
 <b-row>
   <b-col cols="12">
     <b-form @submit="submit">
@@ -18,9 +6,9 @@
         <b-form-group
         label="Country: "
         label-for="country_input"
-        class="w-label"
         >
           <b-form-select
+          size="sm"
           id="country_input"
           v-debounce:600ms="search"
           v-model="adress.country"
@@ -28,8 +16,9 @@
         </b-form-group>
       </b-col>
       <b-col sm="12">
-        <label class="w-label" for="zipcode_input">Zip code:</label>
+        <label for="zipcode_input">Zip code:</label>
           <b-form-input
+            size="sm"
             autoComplete="off"
             class="active"
             type="text"
@@ -39,8 +28,9 @@
           ></b-form-input>
       </b-col>
       <b-col cols="12">
-        <label class="w-label" for="city_input">City:</label>
+        <label for="city_input">City:</label>
           <b-form-input
+            size="sm"
             autoComplete="off"
             type="text"
             id="city_input"
@@ -61,6 +51,7 @@ import ApiService from '../utils/ApiService'
 
 export default {
   name: 'SearchBox',
+  props: ['geoLocation'],
   data () {
     return {
       countryOptions: [],
@@ -75,6 +66,22 @@ export default {
   computed: {
     isAdressValid () {
       return this.searchResult ? Boolean(this.searchResult.length) : false
+    }
+  },
+  watch: {
+    geoLocation: {
+      async handler (val) {
+        let url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${val.lat}&lon=${val.lng}`
+        const response = await new ApiService(url).get()
+        console.log(await response.data)
+        try {
+          this.adress.zipCode = response.data.address.postcode
+          this.adress.city = response.data.address.city
+          this.$emit('searchResult', [response.data])
+        } catch (e) {
+          console.log(e)
+        }
+      }
     }
   },
   created () {
@@ -96,8 +103,7 @@ export default {
     submit () {
     },
     async searchByAdress (adress) {
-      let url
-      url = `https://nominatim.openstreetmap.org/search.php?format=jsonv2`
+      let url = `https://nominatim.openstreetmap.org/search.php?format=jsonv2`
       if (adress.country) {
         url += `&country=${adress.country}`
       }
