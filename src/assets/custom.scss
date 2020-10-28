@@ -22,7 +22,7 @@
 
 .sidebar {
     box-shadow: 0px 0px 15px 0.5px;
-    z-index: 401;
+    z-index: 402;
 }
 
 label {
@@ -34,4 +34,6 @@ label {
     margin-bottom: .2rem;
 }
 
-
+.btn-narrow {
+    padding: 10px 3px;
+}

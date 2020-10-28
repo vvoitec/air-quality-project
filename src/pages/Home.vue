@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <b-row>
-        <b-col
+      <b-col
         xs="12" md="4" lg="3"
         id="sidebarMenu"
         class="sidebar bg-light">
@@ -12,15 +12,16 @@
           </b-collapse>
         </b-col>
       <b-col md="8" lg="9">
+          <b-col
+            xl="7" lg="8" md="10" sm="12"
+            class="chart-container ml-0 p-0 position-absolute">
+            <Slider
+              @toggleChart="toggleChart()"
+              :data="forecast" /> 
+          </b-col>
         <Map
         @toggleSidebar="toggleSidebar()"
         :geo-location="geoLocation" />
-        <b-col
-          xl="7" lg="8" md="10" sm="12"
-          class="chart-container ml-0 p-0 position-absolute">
-          <Slider
-            :data="forecast" />
-        </b-col>   
       </b-col> 
     </b-row>
   </div>
@@ -95,7 +96,14 @@ export default {
 </script>
 <style lang="css" scoped>
 .chart-container {
+  z-index: 401;
   bottom: 5vh;
-  z-index:400;
+}
+
+@media only screen and (max-width: 770px) {
+  .chart-container {
+    z-index: 402;
+    top: 0;
+  }
 }
 </style>

@@ -29,7 +29,6 @@
 
 <script>
 import {LMap, LTileLayer, LMarker, LControl} from 'vue2-leaflet'
-// import ApiService from '../../utils/ApiService'
 
 export default {
   name: 'Map',
