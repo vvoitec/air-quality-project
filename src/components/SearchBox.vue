@@ -1,49 +1,41 @@
 <template>
-<b-row>
-  <b-col cols="12">
-    <b-form @submit="submit">
-      <b-col cols="12">
-        <b-form-group
-        label="Country: "
-        label-for="country_input"
-        >
-          <b-form-select
-          size="sm"
-          id="country_input"
+  <b-form @submit="submit">
+    <b-card class="searchbox">
+    <b-col cols="12">
+      <b-form-group
+      label="Country: "
+      label-for="country_input"
+      >
+        <b-form-select
+        id="country_input"
+        v-debounce:600ms="search"
+        v-model="adress.country"
+        :options="countryOptions"/>
+      </b-form-group>
+    </b-col>
+    <b-col sm="12">
+      <label for="zipcode_input">Zip code:</label>
+        <b-form-input
+          autoComplete="off"
+          class="active"
+          type="text"
+          id="zipcode_input"
+          v-model="adress.zipCode"
           v-debounce:600ms="search"
-          v-model="adress.country"
-          :options="countryOptions"/>
-        </b-form-group>
-      </b-col>
-      <b-col sm="12">
-        <label for="zipcode_input">Zip code:</label>
-          <b-form-input
-            size="sm"
-            autoComplete="off"
-            class="active"
-            type="text"
-            id="zipcode_input"
-            v-model="adress.zipCode"
-            v-debounce:600ms="search"
-          ></b-form-input>
-      </b-col>
-      <b-col cols="12">
-        <label for="city_input">City:</label>
-          <b-form-input
-            size="sm"
-            autoComplete="off"
-            type="text"
-            id="city_input"
-            v-debounce:600ms="search"
-            v-model="adress.city"
-          ></b-form-input>
-      </b-col>
-    </b-form>
-  </b-col>
-  <b-col cols="12">
-    {{ isAdressValid }}
-  </b-col>
-</b-row>
+        ></b-form-input>
+    </b-col>
+    <b-col cols="12">
+      <label for="city_input">City:</label>
+        <b-form-input
+          autoComplete="off"
+          type="text"
+          id="city_input"
+          v-debounce:600ms="search"
+          v-model="adress.city"
+        ></b-form-input>
+    </b-col>
+    </b-card>
+  </b-form>
 </template>
 
 <script>

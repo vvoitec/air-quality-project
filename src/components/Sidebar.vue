@@ -1,32 +1,43 @@
 <template>
-<div>
+<div class="container pt-2 pl-0 pr-0 ml-0 mr-0">
+  <b-card>
   <SearchBox
     :geoLocation="geoLocation"
     @searchResult="setSearchResult($event)"
   />
-  <div class="text-center">
-    <button type="button" class="btn btn-sm btn-dark" @click="findMe()"> Find Me </button>
-  </div>
+  <template #footer>
+    <div class="text-center">
+      <button
+        type="button"
+        class="btn btn-dark"
+        @click="findMe()">
+          <b-icon icon="geo-fill" aria-hidden="true"></b-icon>
+          Find Me
+      </button>
+    </div>
+  </template>
+  </b-card>
   <transition-group tag="ul" style="height: 40vh; overflow: hidden; overflow-y:scroll;" name="mylist" class="list-group">
-    <li
-      class="mylist-item list-group-item"
-      v-for="item in searchResult" :key="item">
+    <b-list-group-item
+      button
+      class="mylist-item"
+      @click="selectLocation(index)"
+      v-for="(item, index) in searchResult" :key="index">
       {{ item.display_name }}
-    </li>
+    </b-list-group-item>
   </transition-group>
+  
 </div>
 </template>
 
 <script>
 import ApiService from '../utils/ApiService'
 import SearchBox from './SearchBox.vue'
-// import Slider from './Slider'
 
 export default {
   name: 'Sidebar',
   components: {
-    SearchBox,
-    // Slider
+    SearchBox
   },
   data () {
     return {
@@ -37,22 +48,21 @@ export default {
     }
   },
   watch: {
-    searchResult (val) {
-      this.$emit('geoLocationRetrieved', {
-        lat: val[0].lat,
-        lng: val[0].lon
-      })
-    }
   },
   methods: {
     setSearchResult (searchResult) {
       this.searchResult = searchResult
-      console.log(searchResult)
+      this.selectLocation()
+    },
+    selectLocation (index = 0) {
       this.fetchAqData({
-        lat:this.searchResult[0].lat,
-        lng: this.searchResult[0].lon
+        lat: this.searchResult[index].lat,
+        lng: this.searchResult[index].lon
       })
-      this.$emit('searchResult', this.searchResult)
+      this.$emit('geoLocationRetrieved', {
+        lat: this.searchResult[index].lat,
+        lng: this.searchResult[index].lon
+      })
     },
     async findMe () {
       await this.fetchGeoLocationFromNavigator()
@@ -92,25 +102,23 @@ export default {
 
 <style scoped>
 .mylist-item {
-  transition: all 1s;
+  margin-left: 0;
+  transition: all 0.75s;
   left: 0;
 }
 
 .mylist-enter,
 .mylist-leave-to {
-  opacity: 0;
-  left: -200px;
-  transition: 1s;
+  left: -300px;
 }
 
 .mylist-leave-active {
-  opacity: 0;
-  left: -200px;
-  transition: 1s;
+  left: -300px;
 }
 
 .list-group-item {
-  margin-left: 15px;
+  padding-left: 2rem;
+  margin-left: 0;
   margin-right: 0;
 }
 </style>
