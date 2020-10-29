@@ -7,7 +7,7 @@
   <div class="text-center">
     <button type="button" class="btn btn-sm btn-dark" @click="findMe()"> Find Me </button>
   </div>
-  <transition-group tag="ul" style="height: 70vh; overflow: hidden; overflow-y:scroll;" name="mylist" class="list-group">
+  <transition-group tag="ul" style="height: 40vh; overflow: hidden; overflow-y:scroll;" name="mylist" class="list-group">
     <li
       class="mylist-item list-group-item"
       v-for="item in searchResult" :key="item">

@@ -17,7 +17,8 @@
             class="chart-container ml-0 p-0 position-absolute">
             <Slider
               @toggleChart="toggleChart()"
-              :data="forecast" /> 
+              :data="forecast"
+              :is-mobile="isMobile" /> 
           </b-col>
         <Map
         @toggleSidebar="toggleSidebar()"
@@ -97,12 +98,11 @@ export default {
 <style lang="css" scoped>
 .chart-container {
   z-index: 401;
-  bottom: 5vh;
+  bottom: 0;
 }
 
 @media only screen and (max-width: 770px) {
   .chart-container {
-    z-index: 402;
     top: 0;
   }
 }
