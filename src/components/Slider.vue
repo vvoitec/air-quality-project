@@ -4,6 +4,15 @@
       cols="11"
       class="pr-0 slider slide-animation" 
       :class="{'slide-in-out': !isChartVisible}">
+      <div style="height: 50px;">
+        <button class="btn-select" type="button">
+          <b-icon icon="circle-fill"></b-icon>
+          123
+        </button>
+        <button class="btn-select" type="button">123</button>
+        <button class="btn-select" type="button">123</button>
+        <button class="btn-select" type="button">123</button>
+      </div>
     <b-card>
       <chart :options="options" :chart-data="datacollection" />
     </b-card>
@@ -99,7 +108,8 @@ export default {
 
 .slide-in-out {
     animation-direction:alternate;
-    margin-left: -87%;
+    /* margin-left: -87%; */
+    transform: translateX(-400px);
     transition: all .5s;
     -webkit-transition: all .5s;
 }

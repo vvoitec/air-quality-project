@@ -1,12 +1,15 @@
 <template>
-<div class="container pt-2 pl-0 pr-0 ml-0 mr-0">
+<div class="pt-2 pl-0 pr-0 ml-0 mr-0">
   <b-card>
+    <template #header>
+    </template>
   <SearchBox
     :geoLocation="geoLocation"
     @searchResult="setSearchResult($event)"
   />
   <template #footer>
-    <div class="text-center">
+    <h5 class="text-center">Enter an address or press the button:</h5>
+      <div class="text-center">
       <button
         type="button"
         class="btn btn-dark"

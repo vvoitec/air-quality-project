@@ -10,9 +10,11 @@
             @geoLocationRetrieved="setGeoLocation($event)"
             @forecastFetched="setForecast($event)" />
           </b-collapse>
-        </b-col>
+      </b-col>
       <b-col md="8" lg="9">
+        <div >
           <b-col
+          style="transform: translateX(-500px)"
             xl="7" lg="8" md="10" sm="12"
             class="chart-container ml-0 p-0 position-absolute">
             <Slider
@@ -20,6 +22,7 @@
               :data="forecast"
               :is-mobile="isMobile" /> 
           </b-col>
+          </div>
         <Map
         @toggleSidebar="toggleSidebar()"
         :geo-location="geoLocation" />
