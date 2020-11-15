@@ -1,18 +1,20 @@
 <template>
   <b-row class="pointer-none align-items-center" v-if="!isMobile">
     <b-col cols="11" class="pr-0">
-      <div class="pointer-auto" style="height: 50px;">
-        <slider-button
-            v-for="(item, index) in buttonLabels"
-            :key="index"
-            @toggleForecastTypes="toggleForecastTypes(index)"
-        >
-          {{ item[0] }}<sub>{{ item[1] }}</sub>
-        </slider-button>
-      </div>
-      <b-card class="pointer-auto">
-        <chart :options="options" :chart-data="datacollection" />
-      </b-card>
+      <b-overlay :show="isLoadingAqData">
+        <div class="pointer-auto h-50px">
+          <slider-button
+              v-for="(item, index) in buttonLabels"
+              :key="index"
+              @toggleForecastTypes="toggleForecastTypes(index)"
+          >
+            {{ item[0] }}<sub>{{ item[1] }}</sub>
+          </slider-button>
+        </div>
+        <b-card class="pointer-auto">
+          <chart :options="options" :chart-data="datacollection" />
+        </b-card>
+      </b-overlay>
     </b-col>
     <b-col cols="auto" class="pl-0">
       <div class="btn-slider pointer-auto">
@@ -53,11 +55,12 @@ import SliderButton from '@/components/SliderButton'
 
 export default {
   name: 'Slider',
-  props: ['data', 'isMobile', 'isChartVisible'],
+  props: ['data', 'isMobile', 'isChartVisible', 'isLoadingAqData'],
   components: {
     Chart,
     SliderButton
   },
+
   computed: {
     isDataFetched () {
       return !!Object.keys(this.data).length
@@ -95,7 +98,6 @@ export default {
 
   data () {
     return {
-      testData: true,
       forecastData: [],
       colors: ['#28A745', '#FFC107', '#DC3545', '#17A2B8'],
       options: {

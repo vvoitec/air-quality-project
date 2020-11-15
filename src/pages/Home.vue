@@ -8,7 +8,8 @@
           <b-collapse v-model="isVisible">
             <sidebar
             @geoLocationRetrieved="setGeoLocation($event)"
-            @forecastFetched="setForecast($event)" />
+            @forecastFetched="setForecast($event)"
+            @isLoadingAqData="toggleLoadingAqData()" />
           </b-collapse>
       </b-col>
       <b-col md="8" lg="9">
@@ -20,7 +21,8 @@
             :is-chart-visible="isChartVisible"
             @toggleChart="toggleChart()"
             :data="forecast"
-            :is-mobile="isMobile" />
+            :is-mobile="isMobile"
+            :is-loading-aq-data="isLoadingAqData" />
         </b-col>
         <Map
         @toggleSidebar="toggleSidebar()"
@@ -44,6 +46,7 @@ export default {
   },
   data () {
     return {
+      isLoadingAqData: false,
       geoLocation: {},
       setVisible: true,
       windowWidth: 0,
@@ -80,6 +83,10 @@ export default {
   },
 
   methods: {
+    toggleLoadingAqData () {
+      this.isLoadingAqData = !this.isLoadingAqData
+    },
+
     toggleChart () {
       this.isChartVisible = !this.isChartVisible
     },

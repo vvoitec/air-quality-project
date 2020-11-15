@@ -90,6 +90,7 @@ export default {
       this.$emit('geoLocationRetrieved', this.geoLocation)
     },
     async fetchAqData (geoLocation) {
+      this.$emit('isLoadingAqData')
       let url = `https://api.waqi.info/feed/geo:${geoLocation.lat};${geoLocation.lng}/?token=${process.env.VUE_APP_WAQI_TOKEN}`
       const response = await new ApiService(url).get()
       if (response.data.status === 'error') {
@@ -97,6 +98,7 @@ export default {
         return
       }
       this.aqData = response.data
+      this.$emit('isLoadingAqData')
       this.$emit('forecastFetched', this.aqData.data.forecast.daily)
     }
   }
