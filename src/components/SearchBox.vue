@@ -9,7 +9,7 @@
         <b-form-select
         id="country_input"
         v-debounce:600ms="search"
-        v-model="adress.country"
+        v-model="address.country"
         :options="countryOptions"/>
       </b-form-group>
     </b-col>
@@ -20,7 +20,7 @@
           class="active"
           type="text"
           id="zipcode_input"
-          v-model="adress.zipCode"
+          v-model="address.zipCode"
           v-debounce:600ms="search"
         ></b-form-input>
     </b-col>
@@ -31,7 +31,7 @@
           type="text"
           id="city_input"
           v-debounce:600ms="search"
-          v-model="adress.city"
+          v-model="address.city"
         ></b-form-input>
     </b-col>
     </b-card>
@@ -48,7 +48,7 @@ export default {
     return {
       countryOptions: [],
       searchResult: [],
-      adress: {
+      address: {
         zipCode: '',
         country: '',
         city: ''
@@ -56,7 +56,7 @@ export default {
     }
   },
   computed: {
-    isAdressValid () {
+    isaddressValid () {
       return this.searchResult ? Boolean(this.searchResult.length) : false
     }
   },
@@ -67,8 +67,8 @@ export default {
         const response = await new ApiService(url).get()
         console.log(await response.data)
         try {
-          this.adress.zipCode = response.data.address.postcode
-          this.adress.city = response.data.address.city
+          this.address.zipCode = response.data.address.postcode
+          this.address.city = response.data.address.city
           this.$emit('searchResult', [response.data])
         } catch (e) {
           console.log(e)
@@ -81,7 +81,7 @@ export default {
     // this.searchByZipCode()
   },
   // watch: {
-  //   adress: {
+  //   address: {
   //     deep: true,
   //     handler (val) {
   //       console.log(val)
@@ -90,23 +90,23 @@ export default {
   // },
   methods: {
     search () {
-      this.searchByAdress(this.adress)
+      this.searchByAddress(this.address)
     },
     submit () {
     },
-    async searchByAdress (adress) {
+    async searchByAddress (address) {
       let url = `https://nominatim.openstreetmap.org/search.php?format=jsonv2`
-      if (adress.country) {
-        url += `&country=${adress.country}`
+      if (address.country) {
+        url += `&country=${address.country}`
       }
-      if (adress.zipCode) {
-        url += `&postalcode=${adress.zipCode}`
+      if (address.zipCode) {
+        url += `&postalcode=${address.zipCode}`
       }
-      if (adress.city) {
-        url += `&city=${adress.city}`
+      if (address.city) {
+        url += `&city=${address.city}`
       }
-      if (adress.street) {
-        url += `&street=${adress.street}`
+      if (address.street) {
+        url += `&street=${address.street}`
       }
       const response = await new ApiService(url).get()
       this.searchResult = response.data

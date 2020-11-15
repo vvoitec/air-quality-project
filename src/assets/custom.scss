@@ -67,3 +67,11 @@ label {
     border: 1px solid #D8D8D8;
     background-color: #F7F7F7;
 }
+
+.slider {
+    box-shadow: 0 0 15px 1px rgba(50, 50, 50, 0.44);
+    padding-left: 0;
+}
+.btn-slider {
+    box-shadow: 0 0 15px 1px rgba(50, 50, 50, 1);
+}
