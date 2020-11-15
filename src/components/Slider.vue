@@ -2,12 +2,12 @@
   <b-row class="pointer-none align-items-center" v-if="!isMobile">
     <b-col cols="11" class="pr-0">
       <b-overlay :show="isLoadingAqData">
-        <div class="pointer-auto h-50px">
+        <div class="h-50px"
+             :class="{'pointer-auto': !isLoadingAqData}">
           <slider-button
               v-for="(item, index) in buttonLabels"
               :key="index"
-              @toggleForecastTypes="toggleForecastTypes(index)"
-          >
+              @toggleForecastTypes="toggleForecastTypes(index)">
             {{ item[0] }}<sub>{{ item[1] }}</sub>
           </slider-button>
         </div>

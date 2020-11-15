@@ -12,6 +12,7 @@
 <script>
 export default {
   name: 'SliderButton',
+  props: ['color'],
   methods: {
     toggleForecastTypes () {
       this.$emit('toggleForecastTypes')
