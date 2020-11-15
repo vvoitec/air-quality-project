@@ -78,25 +78,22 @@ export default {
       await this.fetchAqData(this.geoLocation)
     },
     async fetchGeoLocationFromNavigator () {
-      let pos
       this.setSearchProgress(0)
       try {
-        pos = await new Promise((resolve, reject) => {
+        const pos = await new Promise((resolve, reject) => {
           navigator
           .geolocation
           .getCurrentPosition(resolve, reject)
         })
-        this.setSearchProgress(20)
+        this.setSearchProgress(100)
+        this.geoLocation = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        }
+        this.$emit('geoLocationRetrieved', this.geoLocation)
       } catch (e) {
         console.error(e)
-        return
       }
-      if (pos) this.setSearchProgress(100)
-      this.geoLocation = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      }
-      this.$emit('geoLocationRetrieved', this.geoLocation)
     },
     async fetchAqData (geoLocation) {
       this.$emit('isLoadingAqData')
