@@ -6,10 +6,11 @@
   <SearchBox
     :geoLocation="geoLocation"
     @searchResult="setSearchResult($event)"
+    @setSearchProgress="setSearchProgress($event)"
   />
   <template #footer>
     <h5 class="text-center">Enter an address or press the button:</h5>
-      <div class="text-center">
+    <div class="text-center mb-2">
       <button
         type="button"
         class="btn btn-dark"
@@ -18,6 +19,7 @@
           Find Me
       </button>
     </div>
+    <b-progress height="2px" variant="dark" :value="searchProgress"></b-progress>
   </template>
   </b-card>
   <transition-group tag="ul" class="address-list list-group" name="address-list">
@@ -44,6 +46,7 @@ export default {
   },
   data () {
     return {
+      searchProgress: 0,
       geoLocation: {},
       aqData: {},
       searchResult: [],
@@ -53,6 +56,9 @@ export default {
   watch: {
   },
   methods: {
+    setSearchProgress (progress) {
+      this.searchProgress = progress
+    },
     setSearchResult (searchResult) {
       this.searchResult = searchResult
       this.selectLocation()
@@ -73,16 +79,19 @@ export default {
     },
     async fetchGeoLocationFromNavigator () {
       let pos
+      this.setSearchProgress(0)
       try {
         pos = await new Promise((resolve, reject) => {
           navigator
           .geolocation
           .getCurrentPosition(resolve, reject)
         })
+        this.setSearchProgress(20)
       } catch (e) {
         console.error(e)
         return
       }
+      if (pos) this.setSearchProgress(100)
       this.geoLocation = {
         lat: pos.coords.latitude,
         lng: pos.coords.longitude
