@@ -5,7 +5,7 @@
         <button
             class="btn-select"
             type="button"
-            @click="toggleForecastTypes('o3')"
+            @click="toggleForecastTypes(0)"
         >
           O <sub>3</sub>
           {{forecastTypes[0]}}
@@ -13,7 +13,7 @@
         <button
             class="btn-select"
             type="button"
-            @click="toggleForecastTypes('pm10')"
+            @click="toggleForecastTypes(1)"
         >
           PM <sub>10</sub>
           {{forecastTypes[1]}}
@@ -21,7 +21,7 @@
         <button
             class="btn-select"
             type="button"
-            @click="toggleForecastTypes('pm25')"
+            @click="toggleForecastTypes(2)"
         >
           PM <sub>25</sub>
           {{forecastTypes[2]}}
@@ -29,7 +29,7 @@
         <button
             class="btn-select"
             type="button"
-            @click="toggleForecastTypes('uvi')"
+            @click="toggleForecastTypes(3)"
         >
           UV <sub>i</sub>
           {{forecastTypes[3]}}
@@ -82,27 +82,38 @@ export default {
     Chart
   },
   computed: {
+    isDataFetched () {
+      return !!Object.keys(this.data).length
+    },
+    dailyLabels () {
+      if (this.isDataFetched) {
+        return Object.values(this.data)[0].map(entry => {
+          return entry.day
+        })
+      } else return {}
+    },
     datacollection () {
-      return {}
+      if (this.isDataFetched) {
+        return {
+          labels: this.dailyLabels,
+          datasets: this.filteredDailyForecast
+        }
+      } else return {}
     }
-    // datacollection () {
-    //   if (this.data.daily) {
-    //       return {
-    //       labels: this.data.daily['o3'].map(entry => entry.day),
-    //       datasets: Object.values(this.data.daily).map((entry, index) => {
-    //         return {
-    //           fill: false,
-    //           label: Object.keys(this.data.daily)[index],
-    //           data: entry.map(day => day.avg),
-    //           borderColor: this.colors[index]
-    //         }
-    //       })
-    //     }
-    //   } else return {}
-    // }
   },
 
   watch: {
+    data (val) {
+      this.dailyForecast = Object.keys(val).map((entry, index) => {
+        return {
+          fill: false,
+          label: entry,
+          data: this.data[entry].map(entry => entry.avg),
+          borderColor: this.colors[index]
+        }
+      })
+      this.setFilteredDailyForecast()
+    }
   },
 
   data () {
@@ -115,26 +126,21 @@ export default {
         responsive: true
       },
       height: 300,
-      forecastTypes: [true, true, true, true]
+      forecastTypes: [true, true, true, true],
+      test: true,
+      dailyForecast: [],
+      filteredDailyForecast: []
     }
   },
   methods: {
     toggleForecastTypes (index) {
-      switch (index) {
-        case 'o3':
-          this.forecastTypes[0] = !this.forecastTypes[0];
-          break;
-        case 'pm10':
-          this.forecastTypes[1] = !this.forecastTypes[1];
-          break;
-        case 'pm25':
-          this.forecastTypes[2] = !this.forecastTypes[2];
-          break;
-        case 'uvi':
-          this.forecastTypes[3] = !this.forecastTypes[3];
-          break;
-
-      }
+      this.forecastTypes[index] = !this.forecastTypes[index]
+      this.setFilteredDailyForecast()
+      this.$forceUpdate()
+    },
+    setFilteredDailyForecast () {
+      this.filteredDailyForecast =
+          this.dailyForecast.filter((entry, i) => this.forecastTypes[i])
     },
     toggleChart () {
       this.$emit('toggleChart')

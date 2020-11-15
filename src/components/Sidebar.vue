@@ -26,7 +26,7 @@
       class="address-list-item"
       @click="selectLocation(index)"
       v-for="(item, index) in searchResult" :key="index">
-      {{ item.display_name }}
+      {{ item['display_name'] }}
     </b-list-group-item>
   </transition-group>
   
@@ -69,7 +69,7 @@ export default {
     },
     async findMe () {
       await this.fetchGeoLocationFromNavigator()
-      this.fetchAqData(this.geoLocation)
+      await this.fetchAqData(this.geoLocation)
     },
     async fetchGeoLocationFromNavigator () {
       let pos
@@ -97,7 +97,7 @@ export default {
         return
       }
       this.aqData = response.data
-      this.$emit('forecastFetched', this.aqData.data.forecast)
+      this.$emit('forecastFetched', this.aqData.data.forecast.daily)
     }
   }
 }
