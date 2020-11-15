@@ -15,7 +15,7 @@
         <b-col
           xl="7" lg="8" md="10" sm="12"
           :class="{'chart-visible': !isChartVisible}"
-          class="slide-animation chart-container">
+          class="slide-animation chart-container pointer-none">
           <Slider
             :is-chart-visible="isChartVisible"
             @toggleChart="toggleChart()"
@@ -122,11 +122,12 @@ export default {
 
 @media only screen and (max-width: 770px) {
   .chart-container {
-    transform: translateY(-43vh);
+    top: 0;
+    transform: translateY(-440px);
   }
 
   .chart-visible {
-    transform: translateY(-93vh);
+    transform: translateY(0);
   }
 }
 </style>

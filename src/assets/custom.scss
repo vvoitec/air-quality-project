@@ -53,10 +53,7 @@ label {
 
 .searchbox {
     .card-body {
-        padding-top: 0.5rem;
-        padding-bottom: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
+        padding: 0.5rem 0.5rem 1rem;
     }
 }
 
@@ -74,4 +71,18 @@ label {
 }
 .btn-slider {
     box-shadow: 0 0 15px 1px rgba(50, 50, 50, 1);
+}
+
+.pointer-none {
+    pointer-events: none;
+}
+
+.pointer-auto {
+    pointer-events: auto;
+}
+
+.address-list {
+    height: 40vh;
+    overflow: hidden;
+    overflow-y:scroll;
 }

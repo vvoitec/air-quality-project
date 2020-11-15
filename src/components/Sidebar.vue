@@ -20,10 +20,10 @@
     </div>
   </template>
   </b-card>
-  <transition-group tag="ul" style="height: 40vh; overflow: hidden; overflow-y:scroll;" name="mylist" class="list-group">
+  <transition-group tag="ul" class="address-list list-group" name="address-list">
     <b-list-group-item
       button
-      class="mylist-item"
+      class="address-list-item"
       @click="selectLocation(index)"
       v-for="(item, index) in searchResult" :key="index">
       {{ item.display_name }}
@@ -104,18 +104,18 @@ export default {
 </script>
 
 <style scoped>
-.mylist-item {
+.address-list-item {
   margin-left: 0;
   transition: all 0.75s;
   left: 0;
 }
 
-.mylist-enter,
-.mylist-leave-to {
+.address-list-enter,
+.address-list-leave-to {
   left: -300px;
 }
 
-.mylist-leave-active {
+.address-list-leave-active {
   left: -300px;
 }
 

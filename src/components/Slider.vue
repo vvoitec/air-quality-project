@@ -1,7 +1,7 @@
 <template>
-  <b-row class="align-items-center" v-if="!isMobile">
+  <b-row class="pointer-none align-items-center" v-if="!isMobile">
     <b-col cols="11" class="pr-0">
-      <div style="height: 50px;">
+      <div class="pointer-auto" style="height: 50px;">
         <button
             class="btn-select"
             type="button"
@@ -35,12 +35,12 @@
           {{forecastTypes[3]}}
         </button>
       </div>
-      <b-card>
+      <b-card class="pointer-auto">
         <chart :options="options" :chart-data="datacollection" />
       </b-card>
     </b-col>
     <b-col cols="auto" class="pl-0">
-      <span class="btn-slider">
+      <div class="btn-slider pointer-auto">
         <button
             type="button"
             class="btn btn-dark btn-narrow btn-primary"
@@ -48,28 +48,28 @@
           <b-icon v-if="isChartVisible" icon="chevron-left" aria-hidden="true"></b-icon>
           <b-icon v-else icon="chevron-right" aria-hidden="true"></b-icon>
         </button>
-      </span>
+      </div>
     </b-col>
   </b-row>
 
-  <!--  <div v-else>-->
-  <!--    <b-col cols="12" class="pl-0 pr-0 slider">-->
-  <!--      <b-card>-->
-  <!--        <chart :options="options" :chart-data="datacollection" />-->
-  <!--      </b-card>-->
-  <!--    </b-col>-->
-  <!--    <b-col cols="12" class="pl-0 text-center">-->
-  <!--      <span class="btn-slider">-->
-  <!--        <button-->
-  <!--            type="button"-->
-  <!--            class="btn btn-dark btn-narrow-sm btn-primary"-->
-  <!--            @click="toggleChart()">-->
-  <!--          <b-icon v-if="isChartVisible" icon="chevron-up" aria-hidden="true"></b-icon>-->
-  <!--          <b-icon v-else icon="chevron-down" aria-hidden="true"></b-icon>-->
-  <!--        </button>-->
-  <!--      </span>-->
-  <!--    </b-col>-->
-  <!--  </div>-->
+    <div v-else>
+      <b-col cols="12" class="pl-0 pr-0">
+        <b-card class="pointer-auto">
+          <chart :options="options" :chart-data="datacollection" />
+        </b-card>
+      </b-col>
+      <b-col cols="12" class="pl-0 text-center">
+        <div class="d-inline-block btn-slider pointer-auto">
+          <button
+              type="button"
+              class="btn btn-dark btn-narrow-sm btn-primary"
+              @click="toggleChart()">
+            <b-icon v-if="!isChartVisible" icon="chevron-up" aria-hidden="true"></b-icon>
+            <b-icon v-else icon="chevron-down" aria-hidden="true"></b-icon>
+          </button>
+        </div>
+      </b-col>
+    </div>
 </template>
 
 <script>
