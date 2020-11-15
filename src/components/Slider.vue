@@ -2,38 +2,13 @@
   <b-row class="pointer-none align-items-center" v-if="!isMobile">
     <b-col cols="11" class="pr-0">
       <div class="pointer-auto" style="height: 50px;">
-        <button
-            class="btn-select"
-            type="button"
-            @click="toggleForecastTypes(0)"
+        <slider-button
+            v-for="(item, index) in buttonLabels"
+            :key="index"
+            @toggleForecastTypes="toggleForecastTypes(index)"
         >
-          O <sub>3</sub>
-          {{forecastTypes[0]}}
-        </button>
-        <button
-            class="btn-select"
-            type="button"
-            @click="toggleForecastTypes(1)"
-        >
-          PM <sub>10</sub>
-          {{forecastTypes[1]}}
-        </button>
-        <button
-            class="btn-select"
-            type="button"
-            @click="toggleForecastTypes(2)"
-        >
-          PM <sub>25</sub>
-          {{forecastTypes[2]}}
-        </button>
-        <button
-            class="btn-select"
-            type="button"
-            @click="toggleForecastTypes(3)"
-        >
-          UV <sub>i</sub>
-          {{forecastTypes[3]}}
-        </button>
+          {{ item[0] }}<sub>{{ item[1] }}</sub>
+        </slider-button>
       </div>
       <b-card class="pointer-auto">
         <chart :options="options" :chart-data="datacollection" />
@@ -74,12 +49,14 @@
 
 <script>
 import Chart from './Chart'
+import SliderButton from '@/components/SliderButton'
 
 export default {
   name: 'Slider',
   props: ['data', 'isMobile', 'isChartVisible'],
   components: {
-    Chart
+    Chart,
+    SliderButton
   },
   computed: {
     isDataFetched () {
@@ -129,7 +106,8 @@ export default {
       forecastTypes: [true, true, true, true],
       test: true,
       dailyForecast: [],
-      filteredDailyForecast: []
+      filteredDailyForecast: [],
+      buttonLabels: [ ['O', '3'], ['PM', '10'], ['PM', '25'], ['UV', 'i'] ]
     }
   },
   methods: {
