@@ -31,9 +31,20 @@
 
     <div v-else>
       <b-col cols="12" class="pl-0 pr-0">
-        <b-card class="pointer-auto">
-          <chart :options="options" :chart-data="datacollection" />
-        </b-card>
+        <b-overlay :show="isLoadingAqData">
+          <b-card class="pointer-auto">
+            <chart :options="options" :chart-data="datacollection" />
+          </b-card>
+          <div class="h-50px"
+               :class="{'pointer-auto': !isLoadingAqData}">
+            <slider-button
+                v-for="(item, index) in buttonLabels"
+                :key="index"
+                @toggleForecastTypes="toggleForecastTypes(index)">
+              {{ item[0] }}<sub>{{ item[1] }}</sub>
+            </slider-button>
+          </div>
+        </b-overlay>
       </b-col>
       <b-col cols="12" class="pl-0 text-center">
         <div class="d-inline-block btn-slider pointer-auto">

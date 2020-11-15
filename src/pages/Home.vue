@@ -130,7 +130,7 @@ export default {
 @media only screen and (max-width: 770px) {
   .chart-container {
     top: 0;
-    transform: translateY(-440px);
+    transform: translateY(-490px);
   }
 
   .chart-visible {
