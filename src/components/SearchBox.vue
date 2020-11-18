@@ -9,30 +9,34 @@
         <b-form-select
         id="country_input"
         v-debounce:600ms="search"
-        v-model="adress.country"
+        v-model="address.country"
         :options="countryOptions"/>
       </b-form-group>
     </b-col>
     <b-col sm="12">
-      <label for="zipcode_input">Zip code:</label>
+      <b-form-group>
+        <label for="zipcode_input">Zip code:</label>
         <b-form-input
           autoComplete="off"
           class="active"
           type="text"
           id="zipcode_input"
-          v-model="adress.zipCode"
+          v-model="address.zipCode"
           v-debounce:600ms="search"
         ></b-form-input>
+      </b-form-group>
     </b-col>
     <b-col cols="12">
-      <label for="city_input">City:</label>
+      <b-form-group>
+        <label for="city_input">City:</label>
         <b-form-input
           autoComplete="off"
           type="text"
           id="city_input"
           v-debounce:600ms="search"
-          v-model="adress.city"
+          v-model="address.city"
         ></b-form-input>
+      </b-form-group>
     </b-col>
     </b-card>
   </b-form>
@@ -48,7 +52,7 @@ export default {
     return {
       countryOptions: [],
       searchResult: [],
-      adress: {
+      address: {
         zipCode: '',
         country: '',
         city: ''
@@ -56,7 +60,7 @@ export default {
     }
   },
   computed: {
-    isAdressValid () {
+    isAddressValid () {
       return this.searchResult ? Boolean(this.searchResult.length) : false
     }
   },
@@ -67,8 +71,8 @@ export default {
         const response = await new ApiService(url).get()
         console.log(await response.data)
         try {
-          this.adress.zipCode = response.data.address.postcode
-          this.adress.city = response.data.address.city
+          this.address.zipCode = response.data.address.postcode
+          this.address.city = response.data.address.city
           this.$emit('searchResult', [response.data])
         } catch (e) {
           console.log(e)
@@ -78,38 +82,32 @@ export default {
   },
   created () {
     this.fetchCountryOptions()
-    // this.searchByZipCode()
   },
-  // watch: {
-  //   adress: {
-  //     deep: true,
-  //     handler (val) {
-  //       console.log(val)
-  //     }
-  //   }
-  // },
   methods: {
     search () {
-      this.searchByAdress(this.adress)
+      this.searchByAddress(this.address)
     },
     submit () {
     },
-    async searchByAdress (adress) {
+    async searchByAddress (address) {
+      this.$emit('setSearchProgress', 0)
+      // TODO: add params to query in a better way
       let url = `https://nominatim.openstreetmap.org/search.php?format=jsonv2`
-      if (adress.country) {
-        url += `&country=${adress.country}`
+      if (address.country) {
+        url += `&country=${address.country}`
       }
-      if (adress.zipCode) {
-        url += `&postalcode=${adress.zipCode}`
+      if (address.zipCode) {
+        url += `&postalcode=${address.zipCode}`
       }
-      if (adress.city) {
-        url += `&city=${adress.city}`
+      if (address.city) {
+        url += `&city=${address.city}`
       }
-      if (adress.street) {
-        url += `&street=${adress.street}`
+      if (address.street) {
+        url += `&street=${address.street}`
       }
       const response = await new ApiService(url).get()
       this.searchResult = response.data
+      this.$emit('setSearchProgress', 100)
       this.$emit('searchResult', response.data)
     },
     async fetchCountryOptions () {

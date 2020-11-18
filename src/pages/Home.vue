@@ -8,22 +8,26 @@
           <b-collapse v-model="isVisible">
             <sidebar
             @geoLocationRetrieved="setGeoLocation($event)"
-            @forecastFetched="setForecast($event)" />
+            @forecastFetched="setForecast($event)"
+            @isLoadingAqData="toggleLoadingAqData()" />
           </b-collapse>
-        </b-col>
+      </b-col>
       <b-col md="8" lg="9">
-          <b-col
-            xl="7" lg="8" md="10" sm="12"
-            class="chart-container ml-0 p-0 position-absolute">
-            <Slider
-              @toggleChart="toggleChart()"
-              :data="forecast"
-              :is-mobile="isMobile" /> 
-          </b-col>
+        <b-col
+          xl="7" lg="8" md="10" sm="12"
+          :class="{'chart-visible': !isChartVisible}"
+          class="slide-animation chart-container pointer-none">
+          <Slider
+            :is-chart-visible="isChartVisible"
+            @toggleChart="toggleChart()"
+            :data="forecast"
+            :is-mobile="isMobile"
+            :is-loading-aq-data="isLoadingAqData" />
+        </b-col>
         <Map
         @toggleSidebar="toggleSidebar()"
         :geo-location="geoLocation" />
-      </b-col> 
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -42,10 +46,12 @@ export default {
   },
   data () {
     return {
+      isLoadingAqData: false,
       geoLocation: {},
       setVisible: true,
       windowWidth: 0,
-      forecast: {}
+      forecast: {},
+      isChartVisible: true
     }
   },
 
@@ -60,8 +66,8 @@ export default {
       }
     },
     isMobile () {
-      return this.windowWidth < 770
-    },
+      return this.windowWidth < 768
+    }
   },
 
   mounted() {
@@ -77,7 +83,15 @@ export default {
   },
 
   methods: {
-    setForecast(forecast) {
+    toggleLoadingAqData () {
+      this.isLoadingAqData = !this.isLoadingAqData
+    },
+
+    toggleChart () {
+      this.isChartVisible = !this.isChartVisible
+    },
+
+    setForecast (forecast) {
       this.forecast = forecast
     },
 
@@ -96,14 +110,31 @@ export default {
 }
 </script>
 <style lang="css" scoped>
+.slide-animation {
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+
+.chart-visible {
+  transform: translateX(-93%);
+}
+
 .chart-container {
   z-index: 401;
   bottom: 0;
+  position: absolute;
+  margin-left: 0;
+  padding: 0;
 }
 
 @media only screen and (max-width: 770px) {
   .chart-container {
     top: 0;
+    transform: translateY(-490px);
+  }
+
+  .chart-visible {
+    transform: translateY(0);
   }
 }
 </style>

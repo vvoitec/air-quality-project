@@ -11,5 +11,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/custom.scss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+#app {
+  font-family: 'Montserrat', sans-serif;
+}
 </style>
