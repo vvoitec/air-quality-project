@@ -1,12 +1,11 @@
 # air-quality-project
 
 ## Project setup
-Project needs .vue.env local file with content like this: 
+Project needs .env.local file with token genereted from https://api.waqi.info
 ```
 VUE_APP_WAQI_TOKEN=%YOUR TOKEN%
 ```
-You have to generate your own token https://api.waqi.info and put it in place of %YOUR TOKEN%
-
+To install dependencies: 
 ```
 npm install
 ```
