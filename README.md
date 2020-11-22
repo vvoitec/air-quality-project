@@ -1,9 +1,14 @@
 # air-quality-project
 
+> Demo :  https://vvoitec.github.io/air-quality-project/#/
+
+This project is a simple front-end application based on vue js 2 framework. App fetches and shows air quality parameters based on user's location or based on entered address.
+
+
 ## Project setup
-Project needs .env.local file with token genereted from https://api.waqi.info
+Project needs .env.local file in project root directory with token genereted from https://api.waqi.info
 ```
-VUE_APP_WAQI_TOKEN=%YOUR TOKEN%
+VUE_APP_WAQI_TOKEN=api_token
 ```
 To install dependencies: 
 ```
